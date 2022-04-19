@@ -121,16 +121,15 @@ class Student {
     }
 
     addMark(mark, subjectName) {
-        if (this.journal.hasOwnProperty(subjectName) === true) {
-            if((typeof mark === "number") && (mark >= 1) && (mark <= 5)) {
-               this.journal[subjectName].push(mark); 
-            } else {
-                return console.log("Ошибка, оценка должна быть числом от 1 до 5");
-            }
-            
-        } else {
-            return console.log("Несуществующий предмет");
+        if (this.journal.hasOwnProperty(subjectName) !== true) {
+            this.journal[subjectName] = [];
+          console.log("Несуществующий предмет. Предмет создан");
         }
+        if((typeof mark === "number") && (mark >= 1) && (mark <= 5)) {
+            this.journal[subjectName].push(mark); 
+        } else {
+            return console.log("Ошибка, оценка должна быть числом от 1 до 5");
+        }  
     }
 
     getAverageBySubject(subjectName) {
@@ -147,8 +146,11 @@ class Student {
 
     getAverage() { 
         let sum = 0;
-        let resultMarks = Object.values(this.journal);
+        let marks = Object.values(this.journal);
         //Метод Object.values() возвращает массив значений свойств переданного ему объекта
+        // marks = [ [], [], []] - склеиваем их при помощи concat
+        let resultMarks = [];
+        marks.forEach((item, idx, marks) => resultMarks = [].concat(resultMarks, item));
         resultMarks.forEach((item, idx, resultMarks) => sum += item);
         let average = sum / resultMarks.length;
         return average;
