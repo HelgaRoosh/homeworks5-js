@@ -1,3 +1,4 @@
+"use strict"
 class PrintEditionItem {
     constructor(name, releaseDate, pagesCount) {
         this.name = name;
@@ -99,5 +100,62 @@ class Library {
         } else {
             return null;
         }
+    }
+}
+//------------------TASK-3----------
+class Student {
+    constructor(name) {
+        this.name = name;
+        this.journal = {};
+            /*algebra:[2,3,2,4];
+              geometria:[4,3,3,3] */
+    }
+    
+    setSubject(subjectName) {
+        if (this.journal.hasOwnProperty(subjectName) === true) {
+            return console.log("Предмет уже существует");
+        } else {
+            this.journal[subjectName] = [];
+        //cоздаст свойство в журнале с названием предмера и значением пустого массива
+        }
+    }
+
+    addMark(mark, subjectName) {
+        if (this.journal.hasOwnProperty(subjectName) === true) {
+            if((typeof mark === "number") && (mark >= 1) && (mark <= 5)) {
+               this.journal[subjectName].push(mark); 
+            } else {
+                return console.log("Ошибка, оценка должна быть числом от 1 до 5");
+            }
+            
+        } else {
+            return console.log("Несуществующий предмет");
+        }
+    }
+
+    getAverageBySubject(subjectName) {
+        if (this.journal.hasOwnProperty(subjectName) === true) {
+          let sum = 0;
+          let marks = this.journal[subjectName];
+          marks.forEach((item, idx, marks) => sum += item);
+          let averageBySubject = sum / marks.length;
+          return averageBySubject;
+        } else {
+          return console.log("Несуществующий предмет");
+        }
+    }
+
+    getAverage() { 
+        let sum = 0;
+        let resultMarks = Object.values(this.journal);
+        //Метод Object.values() возвращает массив значений свойств переданного ему объекта
+        resultMarks.forEach((item, idx, resultMarks) => sum += item);
+        let average = sum / resultMarks.length;
+        return average;
+    }
+    
+    exclude(reason) { 
+        delete this.journal;
+        this.excluded = reason;
     }
 }
